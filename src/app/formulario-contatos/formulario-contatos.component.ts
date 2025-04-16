@@ -42,7 +42,7 @@ export class FormularioContatosComponent {
 
     this.contatoService.save(novoContato).subscribe(res => {
       alert("Contato salvo com sucesso!");
-      this.router.navigateByUrl('/lista'); // redireciona para a listagem, se desejar
+      this.router.navigateByUrl('/lista');
     }, err => {
       console.error("Erro ao salvar contato", err);
       alert("Erro ao salvar contato!");
