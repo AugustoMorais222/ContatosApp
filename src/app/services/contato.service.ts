@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Contato } from '../models/contato';
+import { HttpClient } from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,26 +9,28 @@ import { Contato } from '../models/contato';
 export class ContatoService {
   contatos: Contato[] = [];
 
-  constructor() {}
+  url: string = "http://localhost:8080/contato";
+  
+  constructor(private http: HttpClient) {}
 
-  addContato(contato: Contato) {
-    const id = this.contatos.length;
-    contato.id = id;
-    this.contatos.push(contato);
-    console.log(this.contatos);
+  findAll(): Observable<Contato[]>{
+    return this.http.get<Contato[]>(this.url)
   }
 
-  rmvContato(id: number) {
-    this.contatos = this.contatos.filter(contato => contato.id != id);
+  findById(id: number): Observable<Contato>{
+    return this.http.get<Contato>(this.url+'/'+id);
   }
 
-  listarContatos(): Contato[] {
-    return this.contatos;
+  save(contato: Contato): Observable<Contato>{
+    return this.http.post<Contato>(this.url, contato);
   }
 
-  buscarContatoById(id: number): Contato | undefined {
-    return this.contatos.find(contato => contato.id === id);
+  update(contato: Contato): Observable<Contato>{
+    return this.http.put<Contato>(this.url, contato);
   }
 
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(this.url + '/' + id);
+  }
   
 }

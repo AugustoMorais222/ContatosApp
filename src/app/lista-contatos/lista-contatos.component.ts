@@ -3,62 +3,66 @@ import { FormsModule } from '@angular/forms';
 import { ContatoService } from '../services/contato.service';
 import { Contato } from '../models/contato';
 import { CommonModule } from '@angular/common';
-import { FormularioContatosComponent } from '../formulario-contatos/formulario-contatos.component';
 
 @Component({
   selector: 'app-lista-contatos',
+  standalone: true,
   imports: [FormsModule, CommonModule],
   template: `
   <div>
-  <h3>Contatos cadastrados:</h3>
-  <ul *ngIf="this.contatos.length > 0; else vazio">
-    <li *ngFor="let contato of this.contatos">
-      {{ contato.nome }} 
-      <button (click)="visualizar(contato)">Visualizar</button>
-      <button (click)="remover(contato.id)">Remover</button> 
-      <button (click)="editar(contato)">editar</button> 
-    </li>
-  </ul>
-  <ng-template #vazio>
-    <p>Nenhum aluno cadastrado ainda.</p>
-  </ng-template>
-  <div *ngIf="boolDetatlhes">
-  Detalhes:
-  id: {{contatoDetalhado.id}}<br\>
-  nome: {{contatoDetalhado.nome}}<br\>
-  email: {{contatoDetalhado.email}}<br\>
-  telefone:{{contatoDetalhado.telefone}}
+    <h3>Contatos cadastrados:</h3>
+    <ul *ngIf="contatos.length > 0; else vazio">
+      <li *ngFor="let contato of contatos">
+        {{ contato.nome }} 
+        <button (click)="visualizar(contato)">Visualizar</button>
+        <button (click)="remover(contato.id)">Remover</button> 
+      </li>
+    </ul>
+    <ng-template #vazio>
+      <p>Nenhum contato cadastrado ainda.</p>
+    </ng-template>
+
+    <div *ngIf="boolDetalhes">
+      <h4>Detalhes do contato:</h4>
+      ID: {{contatoDetalhado.id}}<br />
+      Nome: {{contatoDetalhado.nome}}<br />
+      Email: {{contatoDetalhado.email}}<br />
+      Telefone: {{contatoDetalhado.telefone}}<br />
+      <button (click)="fecharDetalhes()">Fechar</button>
+    </div>
   </div>
-
-
-
-</div> 
-`,
+  `,
   styleUrl: './lista-contatos.component.css'
 })
 export class ListaContatosComponent {
   contatos: Contato[] = [];
-  contatoDetalhado : Contato = {id: 0, nome: '', email: '', telefone: ''};
+  contatoDetalhado: Contato = { id: 0, nome: '', email: '', telefone: '' };
+  boolDetalhes: boolean = false;
 
-  boolDetatlhes : Boolean = false;
+  constructor(private contatoService: ContatoService) {
+    this.carregarContatos();
+  }
 
-  remover(id: number){
-    this.contatoService.rmvContato(id);
-    this.contatos = this.contatoService.listarContatos();
+  carregarContatos() {
+    this.contatoService.findAll().subscribe(contatos => this.contatos = contatos);
+  }
+
+  remover(id: number | undefined) {
+    if (id !== undefined) {
+      this.contatoService.delete(id).subscribe(() => {
+        this.carregarContatos();
+      });
+    }
   }
 
   visualizar(contato: Contato) {
-    this.boolDetatlhes = true;
-    this.contatoDetalhado = contato
+    this.contatoService.findById(contato.id!).subscribe(res => {
+      this.contatoDetalhado = res;
+      this.boolDetalhes = true;
+    });
   }
 
-  editar(contato: Contato){
-    console.log('')
+  fecharDetalhes() {
+    this.boolDetalhes = false;
   }
-
-  constructor(private contatoService: ContatoService) {
-    this.contatos = contatoService.listarContatos();
-  }
-
-
 }

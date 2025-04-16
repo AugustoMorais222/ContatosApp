@@ -1,10 +1,15 @@
 import { Routes } from '@angular/router';
-import { ListaContatosComponent } from './lista-contatos/lista-contatos.component';
-import { FormularioContatosComponent } from './formulario-contatos/formulario-contatos.component';
-
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/formulario', pathMatch: 'full'},
-    { path: 'list', component: ListaContatosComponent},
-    { path: 'formulario', component: FormularioContatosComponent},
+  { path: '', redirectTo: '/formulario', pathMatch: 'full' },
+  {
+    path: 'list',
+    loadComponent: () =>
+      import('./lista-contatos/lista-contatos.component').then(m => m.ListaContatosComponent)
+  },
+  {
+    path: 'formulario',
+    loadComponent: () =>
+      import('./formulario-contatos/formulario-contatos.component').then(m => m.FormularioContatosComponent)
+  }
 ];
