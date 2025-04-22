@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   { path: '', redirectTo: '/formulario', pathMatch: 'full' },
   {
-    path: 'list',
+    path: 'lista',
     loadComponent: () =>
       import('./lista-contatos/lista-contatos.component').then(m => m.ListaContatosComponent)
   },

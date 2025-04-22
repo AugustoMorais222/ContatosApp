@@ -15,7 +15,8 @@ import { CommonModule } from '@angular/common';
       <li *ngFor="let contato of contatos">
         {{ contato.nome }} 
         <button (click)="visualizar(contato)">Visualizar</button>
-        <button (click)="remover(contato.id)">Remover</button> 
+        <button (click)="remover(contato.id)">Remover</button>
+        <button (click)="editar(contato)">Editar</button>
       </li>
     </ul>
     <ng-template #vazio>
@@ -30,6 +31,23 @@ import { CommonModule } from '@angular/common';
       Telefone: {{contatoDetalhado.telefone}}<br />
       <button (click)="fecharDetalhes()">Fechar</button>
     </div>
+
+    <div *ngIf="boolEdicao">
+      <h4>Editar Contato</h4>
+      <form (ngSubmit)="atualizar()">
+        <label for="nome">Nome:</label>
+        <input id="nome" [(ngModel)]="contatoEditado.nome" name="nome" required /><br />
+
+        <label for="email">Email:</label>
+        <input id="email" [(ngModel)]="contatoEditado.email" name="email" type="email" required /><br />
+
+        <label for="telefone">Telefone:</label>
+        <input id="telefone" [(ngModel)]="contatoEditado.telefone" name="telefone" required /><br />
+
+        <button type="submit">Salvar Alterações</button>
+        <button type="button" (click)="cancelarEdicao()">Cancelar</button>
+      </form>
+    </div>
   </div>
   `,
   styleUrl: './lista-contatos.component.css'
@@ -37,7 +55,9 @@ import { CommonModule } from '@angular/common';
 export class ListaContatosComponent {
   contatos: Contato[] = [];
   contatoDetalhado: Contato = { id: 0, nome: '', email: '', telefone: '' };
+  contatoEditado: Contato = { id: 0, nome: '', email: '', telefone: '' };
   boolDetalhes: boolean = false;
+  boolEdicao: boolean = false;
 
   constructor(private contatoService: ContatoService) {
     this.carregarContatos();
@@ -60,6 +80,29 @@ export class ListaContatosComponent {
       this.contatoDetalhado = res;
       this.boolDetalhes = true;
     });
+  }
+
+  editar(contato: Contato) {
+    this.contatoEditado = { ...contato };
+    this.boolEdicao = true; 
+    this.boolDetalhes = false; 
+  }
+
+  atualizar() {
+    this.contatoService.update(this.contatoEditado).subscribe({
+      next: (res) => {
+        console.log('Contato atualizado com sucesso!', res);
+        this.boolEdicao = false;
+        this.carregarContatos();
+      },
+      error: (err) => {
+        console.error('Erro ao atualizar o contato:', err);
+      }
+    });
+  }
+
+  cancelarEdicao() {
+    this.boolEdicao = false;
   }
 
   fecharDetalhes() {

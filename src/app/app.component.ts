@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   <h1>Cadastro App</h1>
   <nav>
     <a routerLink="/formulario">Formulário</a> |
-    <a routerLink="/list">Lista</a>
+    <a routerLink="/lista">Lista</a>
   </nav>
   <router-outlet></router-outlet>
 `,
