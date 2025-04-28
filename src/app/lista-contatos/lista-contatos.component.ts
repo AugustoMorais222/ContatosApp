@@ -11,12 +11,16 @@ import { CommonModule } from '@angular/common';
   template: `
   <div>
     <h3>Contatos cadastrados:</h3>
+    <div>
+      <button (click)="visualizarContatos()">Favoritos</button>
+    </div>
     <ul *ngIf="contatos.length > 0; else vazio">
       <li *ngFor="let contato of contatos">
         {{ contato.nome }} 
         <button (click)="visualizar(contato)">Visualizar</button>
         <button (click)="remover(contato.id)">Remover</button>
         <button (click)="editar(contato)">Editar</button>
+        <button (click)="favoritar(contato)">Favoritar</button>
       </li>
     </ul>
     <ng-template #vazio>
@@ -58,9 +62,18 @@ export class ListaContatosComponent {
   contatoEditado: Contato = { id: 0, nome: '', email: '', telefone: '' };
   boolDetalhes: boolean = false;
   boolEdicao: boolean = false;
-
+  favoritos: Contato[] = [];
+  
   constructor(private contatoService: ContatoService) {
     this.carregarContatos();
+  }
+
+  visualizarContatos(){
+    
+  }
+
+  favoritar(contato: Contato){
+    this.favoritos.push(contato);
   }
 
   carregarContatos() {
