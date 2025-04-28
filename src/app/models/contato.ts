@@ -1,3 +1,4 @@
+import { ContatoGrupo } from "./contato-grupo";
 import { Grupo } from "./grupo";
 
 export interface Contato {
@@ -5,6 +6,6 @@ export interface Contato {
     nome: string;
     email: string;
     telefone: string;
-    grupos?: Grupo[];    
+    grupos?: ContatoGrupo[];    
     isFavorite?: boolean; 
 }

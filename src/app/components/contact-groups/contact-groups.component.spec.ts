@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContatoGrupoComponent } from './contato-grupo.component';
+import { ContactGroupsComponent } from './contact-groups.component';
 
-describe('ContatoGrupoComponent', () => {
-  let component: ContatoGrupoComponent;
-  let fixture: ComponentFixture<ContatoGrupoComponent>;
+describe('ContactGroupsComponent', () => {
+  let component: ContactGroupsComponent;
+  let fixture: ComponentFixture<ContactGroupsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ContatoGrupoComponent]
+      imports: [ContactGroupsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ContatoGrupoComponent);
+    fixture = TestBed.createComponent(ContactGroupsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

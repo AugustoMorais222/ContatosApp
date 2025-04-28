@@ -2,25 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Grupo } from '../models/grupo';
+import { environment } from '../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GrupoService {
 
-  private baseUrl = 'http://localhost:8080/grupos';
+  private baseUrl = `http://localhost:${environment.port}/grupos`;
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Grupo[]> {
+  findAll(): Observable<Grupo[]> {
     return this.http.get<Grupo[]>(this.baseUrl);
   }
 
-  getById(id: number): Observable<Grupo> {
+  findById(id: number): Observable<Grupo> {
     return this.http.get<Grupo>(`${this.baseUrl}/${id}`);
   }
 
-  create(grupo: Grupo): Observable<Grupo> {
+  save(grupo: Grupo): Observable<Grupo> {
     return this.http.post<Grupo>(this.baseUrl, grupo);
   }
 

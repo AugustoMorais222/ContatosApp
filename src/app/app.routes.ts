@@ -5,11 +5,16 @@ export const routes: Routes = [
   {
     path: 'lista',
     loadComponent: () =>
-      import('./lista-contatos/lista-contatos.component').then(m => m.ListaContatosComponent)
+      import('./components/lista-contatos/lista-contatos.component').then(m => m.ListaContatosComponent)
   },
   {
     path: 'formulario',
     loadComponent: () =>
-      import('./formulario-contatos/formulario-contatos.component').then(m => m.FormularioContatosComponent)
+      import('./components/formulario-contatos/formulario-contatos.component').then(m => m.FormularioContatosComponent)
+  },
+  {
+    path: 'grupos',
+    loadComponent: () =>
+      import('./components/contact-groups/contact-groups.component').then(m => m.ContactGroupsComponent)
   }
 ];

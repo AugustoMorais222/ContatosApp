@@ -2,7 +2,7 @@ import { Contato } from "./contato";
 
 export interface Grupo {
     id?:number;
-    nome:string;
-    contatos: Contato[];
+    nome?:string;
+    contatos?: Contato[];
     
 }
