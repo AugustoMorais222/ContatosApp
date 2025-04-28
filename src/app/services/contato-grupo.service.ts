@@ -14,7 +14,7 @@ export class ContatoGrupoService {
 
   adicionarContatoNoGrupo(payload: { contatoId: number; grupoId: number }) {
     return this.http.post<void>(
-      `http://localhost:${environment.port}/contato-grupo/adicionar`,
+      this.apiUrl,
       payload
     );
   }
