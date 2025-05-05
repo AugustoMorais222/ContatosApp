@@ -1,13 +1,20 @@
 import { Routes } from '@angular/router';
-import { FormularioContatosComponent } from './components/formulario-contatos/formulario-contatos.component';
-import { ListaContatosComponent } from './components/lista-contatos/lista-contatos.component';
-import { ContactGroupsComponent } from './components/contact-groups/contact-groups.component';
-import { CompromissoComponent } from './components/compromisso/compromisso.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/formulario', pathMatch: 'full' },
-  {path: 'lista', component: ListaContatosComponent},
-  {path: 'formulario', component: FormularioContatosComponent},
-  {path: 'grupos', component: ContactGroupsComponent},
-  {path: 'compromisso', component: CompromissoComponent}
+  {
+    path: 'lista',
+    loadComponent: () =>
+      import('./components/lista-contatos/lista-contatos.component').then(m => m.ListaContatosComponent)
+  },
+  {
+    path: 'formulario',
+    loadComponent: () =>
+      import('./components/formulario-contatos/formulario-contatos.component').then(m => m.FormularioContatosComponent)
+  },
+  {
+    path: 'grupos',
+    loadComponent: () =>
+      import('./components/contact-groups/contact-groups.component').then(m => m.ContactGroupsComponent)
+  }
 ];
