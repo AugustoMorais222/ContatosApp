@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FormularioContatosComponent } from "./components/formulario-contatos/formulario-contatos.component";
-import { ListaContatosComponent } from "./components/lista-contatos/lista-contatos.component";
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -12,7 +10,8 @@ import { RouterModule } from '@angular/router';
   <nav>
     <a routerLink="/formulario">Formulário</a> |
     <a routerLink="/lista">Lista</a> |
-    <a routerLink="/grupos">Grupos</a>
+    <a routerLink="/grupos">Grupos</a> |
+    <a routerLink="/compromisso">Compromisso</a>
   </nav>
   <router-outlet></router-outlet>
 `,
