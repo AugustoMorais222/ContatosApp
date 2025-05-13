@@ -6,10 +6,10 @@ import { GrupoService } from '../../services/grupo.service';
 
 
 @Component({
-  selector: 'app-contact-groups',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: `
+    selector: 'app-contact-groups',
+    standalone: true,
+    imports: [CommonModule, FormsModule],
+    template: `
   <div>
     <h3>Gerenciar Grupos</h3>
 
@@ -39,7 +39,7 @@ import { GrupoService } from '../../services/grupo.service';
     </div>
   </div>
   `,
-  styleUrls: ['./contact-groups.component.css']
+    styleUrls: ['./contact-groups.component.css']
 })
 export class ContactGroupsComponent {
   grupos: Grupo[] = [];

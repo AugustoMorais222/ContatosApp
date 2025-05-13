@@ -3,6 +3,8 @@ import { Contato } from '../models/contato';
 import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs';
 import { environment } from '../environment';
+import { Grupo } from '../models/grupo';
+import { Compromisso } from '../models/compromisso';
 @Injectable({
   providedIn: 'root'
 })
@@ -31,6 +33,14 @@ export class ContatoService {
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(this.url + '/' + id);
+  }
+
+  findGruposByContato(id: number): Observable<Grupo[]>{
+    return this.http.get<Grupo[]>(this.url+ '/' + id + '/grupos')
+  }
+
+  findCompromissosByContato(id: number): Observable<Compromisso[]>{
+    return this.http.get<Compromisso[]>(this.url+ '/' + id + '/compromissos')
   }
   
 }

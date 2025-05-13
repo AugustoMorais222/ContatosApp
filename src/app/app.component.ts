@@ -3,10 +3,10 @@ import { RouterOutlet } from '@angular/router';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet,RouterModule],
-  template: `
+    selector: 'app-root',
+    standalone: true,
+    imports: [RouterOutlet, RouterModule],
+    template: `
   <h1>Cadastro App</h1>
   <div style="display:flex; margin-bottom:25px">
   <nav>
@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
   </div>
   <router-outlet></router-outlet>
 `,
-  styleUrl: './app.component.css'
+    styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'contatos-app';

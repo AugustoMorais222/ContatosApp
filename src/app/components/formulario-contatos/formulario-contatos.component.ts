@@ -9,10 +9,9 @@ import { OnInit } from '@angular/core';
 import { ContatoGrupoService } from '../../services/contato-grupo.service';
 
 @Component({
-  selector: 'app-formulario-contatos',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  template: `
+    selector: 'app-formulario-contatos',
+    imports: [CommonModule, FormsModule],
+    template: `
     <div>
       <h2>Nome:</h2>
       <input type="text" [(ngModel)]="nome" placeholder="Digite o nome do contato"/>
@@ -41,7 +40,7 @@ import { ContatoGrupoService } from '../../services/contato-grupo.service';
       <button (click)="adicionar()">Salvar</button>
     </div>
   `,
-  styleUrl: './formulario-contatos.component.css'
+    styleUrl: './formulario-contatos.component.css'
 })
 export class FormularioContatosComponent implements OnInit{
   nome = "";

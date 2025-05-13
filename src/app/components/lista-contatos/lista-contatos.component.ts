@@ -3,12 +3,16 @@ import { FormsModule } from '@angular/forms';
 import { ContatoService } from '../../services/contato.service';
 import { Contato } from '../../models/contato';
 import { CommonModule } from '@angular/common';
-
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { SelectModule } from 'primeng/select';
+import { TagModule } from 'primeng/tag';
+import { DialogModule } from 'primeng/dialog';
 @Component({
-  selector: 'app-lista-contatos',
-  standalone: true,
-  imports: [FormsModule, CommonModule],
-  template: `
+    selector: 'app-lista-contatos',
+    standalone: true,
+    imports: [FormsModule, CommonModule,TableModule,ToastModule,SelectModule,TagModule,DialogModule],
+    template: `
   <div>
     <h3>Contatos cadastrados:</h3>
 
@@ -73,8 +77,160 @@ import { CommonModule } from '@angular/common';
       </form>
     </div>
   </div>
+<div class="card flex justify-center">
+
+<p-dialog header="Detalhes do Contato" [modal]="true" [(ngModel)]="contatoDetalhado" [(visible)]="visible" [style]="{ width: '25rem' }">
+         <div>
+          <p><strong>Nome:</strong> {{ contatoDetalhado.nome }}</p>
+          <p><strong>Email:</strong> {{ contatoDetalhado.email }}</p>
+          <p><strong>Telefone:</strong> {{ contatoDetalhado.telefone }}</p>
+        </div>
+    </p-dialog>
+  </div>
+  <div class="card">
+    <p-table [value]="contatos" dataKey="id" editMode="row" [tableStyle]="{'min-width': '50rem'}">
+        <ng-template #header>
+            <tr>
+                <th style="width:10%">Id</th>
+                <th style="width:25%">Nome</th>
+                <th style="width:20%">Email</th>
+                <th style="width:20%">Telefone</th>
+                <th style="width:15%">Favorito</th>
+                <th style="width:15%">Ações</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-contato let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="contato">
+                <td>
+                    <p-cellEditor>
+                        <ng-template #input>
+                            <input
+                                pInputText type="text"
+                                [(ngModel)]="contato.id" />
+                        </ng-template>
+                        <ng-template #output>
+                            {{contato.id}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template #input>
+                            <input
+                                pInputText type="text"
+                                [(ngModel)]="contato.nome"
+                                required />
+                        </ng-template>
+                        <ng-template #output>
+                            {{contato.nome}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template #input>
+                            <input
+                                pInputText type="text"
+                                [(ngModel)]="contato.email" />
+                        </ng-template>
+                        <ng-template #output>
+                            {{contato.email}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template #input>
+                            <input
+                                pInputText type="text"
+                                [(ngModel)]="contato.telefone"
+                                required />
+                        </ng-template>
+                        <ng-template #output>
+                            {{contato.telefone}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                 <div class="flex items-center justify-center gap-2">
+                    <button
+                      *ngIf="!editing"
+                      pButton
+                      pRipple
+                      type="button"
+                      text
+                      (click)="alternarFavorito(contato)"
+                      rounded
+                      severity="secondary"
+                    ><i *ngIf="!contato.isFavorite" class="pi pi-star"></i>
+                      <i *ngIf="contato.isFavorite" class="pi pi-star-fill"></i></button>
+                  </div>
+                </td>
+                <td>
+            <div class="flex items-center justify-center gap-2">
+                <button
+                    *ngIf="!editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pInitEditableRow
+                    (click)="editar(contato)"
+                    text
+                    rounded
+                    severity="secondary"
+                ><i class="pi pi-pencil"></i></button>
+                <button
+                    *ngIf="!editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    text
+                    (click)="abrirDialog(contato)"
+                    rounded
+                    severity="secondary"
+                ><i class="pi pi-eye"></i></button>
+                <button
+                    *ngIf="!editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    text
+                    (click)="remover(contato.id)"
+                    rounded
+                    severity="secondary"
+                ><i class="pi pi-trash"></i></button>
+                <button
+                    *ngIf="editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pSaveEditableRow
+                    icon="pi pi-check"
+                    (click)="atualizar();"
+                    text
+                    rounded
+                    severity="secondary"
+                ><i class="pi pi-check"></i></button>
+                <button
+                    *ngIf="editing"
+                    pButton
+                    pRipple
+                    type="button"
+                    pCancelEditableRow
+                    icon="pi pi-times"
+
+                    text
+                    rounded
+                    severity="secondary"
+                ><i class="pi pi-times"></i></button>
+            </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
   `,
-  styleUrl: './lista-contatos.component.css'
+    styleUrl: './lista-contatos.component.css'
 })
 export class ListaContatosComponent {
   contatos: Contato[] = [];
@@ -86,6 +242,7 @@ export class ListaContatosComponent {
   grupoSelecionado: number | null = null;
   gruposDisponiveis: any[] = [];
   gruposEditados: string = '';
+  visible: boolean = false;
 
   constructor(private contatoService: ContatoService) {
     this.carregarContatos();
@@ -106,7 +263,6 @@ export class ListaContatosComponent {
   alternarFavorito(contato: Contato) {
     contato.isFavorite = !contato.isFavorite;
     this.contatoService.update(contato).subscribe(() => {
-      this.carregarContatos();
     });
   }
 
@@ -116,6 +272,11 @@ export class ListaContatosComponent {
         this.carregarContatos();
       });
     }
+  }
+
+  abrirDialog(contato: any) {
+    this.contatoDetalhado = contato;
+    this.visible = true;
   }
 
   visualizar(contato: Contato) {
